@@ -1,0 +1,23 @@
+{
+  "name": "grocery-monster",
+  "version": "0.0.1",
+  "description": "A small application written in node.js that suggests recipes according to ingredients detected in an image.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Orpheusp/grocery-monster.git"
+  },
+  "author": "Orpheus Peng",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Orpheusp/grocery-monster/issues"
+  },
+  "homepage": "https://github.com/Orpheusp/grocery-monster#readme",
+  "dependencies": {
+    "@google-cloud/vision": "^2.3.3",
+    "express": "^4.17.1"
+  }
+}
