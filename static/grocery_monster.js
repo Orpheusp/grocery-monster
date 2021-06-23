@@ -73,7 +73,7 @@ function drawText(annotation) {
   ctx.fillStyle = 'red';
   ctx.fillText(text, x, y);
   
-  /// restore original state
+  // restore original state
   ctx.restore();
 }
 
