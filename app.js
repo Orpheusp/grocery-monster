@@ -76,6 +76,9 @@ async function filterIngredients(annotations) {
 }
 
 function _filterIngredients(items) {
+  if (!items || !items.length) {
+    return [];
+  }
   const ingredients = items
     .map((item) => item.result)
     .filter((item) => INGREDIENT_TYPES.has(item.description))
