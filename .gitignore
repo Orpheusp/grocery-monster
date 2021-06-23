@@ -106,3 +106,4 @@ dist
 # Files specific to project
 gcloud-credential.json
 app_secrets.js
+test_data.js
