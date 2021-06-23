@@ -19,5 +19,11 @@
   "dependencies": {
     "@google-cloud/vision": "^2.3.3",
     "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "eslint": "^7.29.0",
+    "eslint-config-google": "^0.14.0",
+    "eslint-config-prettier": "^8.3.0",
+    "prettier": "^2.3.1"
   }
 }
