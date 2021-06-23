@@ -66,7 +66,7 @@ async function filterIngredients(annotations) {
   const paramString = new URLSearchParams(params).toString();
   url.search = `${idString}&${paramString}`;
 
-  console.log('GET: ', url.toString());
+  console.log('[Knolwedge Graph Request] GET: ', url.toString());
 
   const promise = fetch(url, { method: 'GET' })
     .then((response) => response.json())
@@ -79,15 +79,30 @@ function _filterIngredients(items) {
   if (!items || !items.length) {
     return [];
   }
+  // The object detection feature of Google Cloud Vision API may label objects
+  // of a wide range of categories, resulting in a somewhat "noisy" label set
+  // that needs to be filtered prior to further operations.
+  // Due to time constraints, the filtering strategy employed here is a
+  // heuristic: Grocery items recognized by Google Knowledge Graph tend to have
+  // one of the types in INGREDIENT_TYPES as its description, giving us a way to
+  // distinguish grocery items from non-grocery ones.
   const ingredients = items
     .map((item) => item.result)
-    .filter((item) => INGREDIENT_TYPES.has(item.description))
+    .filter(
+      (item) =>
+        !INGREDIENT_TYPES.has(item.name) &&
+        INGREDIENT_TYPES.has(item.description)
+    )
     .map((item) => item.name);
 
   return ingredients;
 }
 
 async function findRecipes(ingredients) {
+  if (!ingredients || !ingredients.length) {
+    return Promise.resolve([]);
+  }
+
   const url = new URL('https://api.spoonacular.com/recipes/findByIngredients');
   const params = {
     ingredients: ingredients.join(','),
@@ -107,7 +122,7 @@ async function findRecipes(ingredients) {
   };
   url.search = new URLSearchParams(params).toString();
 
-  console.log('GET: ', url.toString());
+  console.log('[Recipe Request] GET: ', url.toString());
 
   const promise = fetch(url, { method: 'GET' }).then((response) =>
     response.json()
@@ -121,11 +136,11 @@ app.get('/', async (req, res) => {
 });
 
 app.post('/detect', async (req, res) => {
-  console.log(req.body);
   const { photoUrl } = req.body;
+  console.log('Requested Image:', photoUrl);
   const annotations = await annotateImage(photoUrl);
   const ingredients = await filterIngredients(annotations);
-  console.log(ingredients);
+  console.log('Ingredient List:', ingredients);
   const recipes = await findRecipes(ingredients);
 
   res.json({ annotations, recipes });
