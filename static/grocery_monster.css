@@ -1,4 +1,33 @@
+html {
+  font-size: 12px;
+  font-family: 'Open Sans', 'Helvetica Neue', Arial, Helvetica, sans-serif;
+}
+
+body {
+  margin: 0;
+}
+
+.title {
+  font-weight: 700;
+}
+
+.hidden {
+  display: none;
+}
+
+.shown {
+  display: block;
+}
+
 #canvas {
   display: block;
   max-height: 40rem;
+}
+
+.recipe--title {
+  font-size: 2rem;
+}
+
+.recipe--notes {
+  font-size: 1.25rem;
 }
