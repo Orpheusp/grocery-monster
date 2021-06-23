@@ -19,7 +19,7 @@
   "dependencies": {
     "@google-cloud/vision": "^2.3.3",
     "express": "^4.17.1",
-    "spoonacular_api": "^1.0.0"
+    "node-fetch": "^2.6.1"
   },
   "devDependencies": {
     "eslint": "^7.29.0",
