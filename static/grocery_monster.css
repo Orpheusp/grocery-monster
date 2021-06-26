@@ -31,3 +31,7 @@ body {
 .recipe--notes {
   font-size: 1.25rem;
 }
+
+.recipe--ingredient-list-title {
+  font-weight: 700;
+}

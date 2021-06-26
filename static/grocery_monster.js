@@ -56,7 +56,7 @@ function drawText(annotation) {
   const vertices = annotation.boundingPoly.normalizedVertices;
   const x = vertices[0].x * canvasWidth;
   const y = vertices[0].y * canvasHeight;
-  const fontSize = 48;
+  const fontSize = Math.round(canvas.height / 20);
   const text = annotation.name;
 
   ctx.save();
@@ -83,7 +83,7 @@ function renderRecipes(recipes) {
 
 function renderRecipe(recipe) {
   const recipeEl = document.createElement('div');
-  recipeEl.className = 'recipe col-3 p-4';
+  recipeEl.className = 'recipe col-lg-3 col-md-4 col-sm-6 col-12 p-4';
 
   const recipeTitleEl = document.createElement('div');
   recipeTitleEl.className = 'recipe--title mt-2 mb-2';
@@ -106,31 +106,36 @@ function getRecipeNotesEl(recipe) {
   const recipeNotesEl = document.createElement('div');
   recipeNotesEl.className = 'recipe--notes mt-2 mb-2';
 
-  const recipeUsedIngredientsEl = document.createElement('div');
-  recipeUsedIngredientsEl.className = 'recipe--used-ingredients';
-  recipeUsedIngredientsEl.innerText = 'Used Ingredients';
-  recipeUsedIngredientsEl.appendChild(
-    getIngredientListEl(recipe.usedIngredients)
+  const recipeUsedIngredientListEl = getIngredientListEl(
+    'Used Ingredients',
+    recipe.usedIngredients
+  );
+  const recipeMissingIngredientListEl = getIngredientListEl(
+    'Missing Ingredients',
+    recipe.missedIngredients
   );
 
-  const recipeMissingIngredientsEl = document.createElement('div');
-  recipeMissingIngredientsEl.className = 'recipe--missing-ingredients';
-  recipeMissingIngredientsEl.innerText = 'Missing Ingredients';
-  recipeMissingIngredientsEl.appendChild(
-    getIngredientListEl(recipe.missedIngredients)
-  );
-
-  recipeNotesEl.appendChild(recipeUsedIngredientsEl);
-  recipeNotesEl.appendChild(recipeMissingIngredientsEl);
+  recipeNotesEl.appendChild(recipeUsedIngredientListEl);
+  recipeNotesEl.appendChild(recipeMissingIngredientListEl);
 
   return recipeNotesEl;
 }
 
-function getIngredientListEl(ingredients) {
-  const ingredientListEl = document.createElement('ul');
+function getIngredientListEl(title, ingredients) {
+  const ingredientListEl = document.createElement('div');
   ingredientListEl.className = 'recipe--ingredient-list';
+
+  const ingredientListTitleEl = document.createElement('p');
+  ingredientListTitleEl.className = 'recipe--ingredient-list-title';
+  ingredientListTitleEl.innerText = title;
+
+  const ingredientListContentEl = document.createElement('ul');
+  ingredientListContentEl.className = 'recipe--ingredient-list-content';
   const ingredientEls = ingredients.map(getIngredientEl);
-  ingredientEls.forEach((el) => ingredientListEl.appendChild(el));
+  ingredientEls.forEach((el) => ingredientListContentEl.appendChild(el));
+
+  ingredientListEl.appendChild(ingredientListTitleEl);
+  ingredientListEl.appendChild(ingredientListContentEl);
   return ingredientListEl;
 }
 
@@ -144,6 +149,7 @@ function getIngredientEl(ingredient) {
 async function detect() {
   const photoUrl = $('photo-url').value;
 
+  clearResults();
   $('results').className = 'shown';
   renderImage(photoUrl);
   const { annotations, recipes } = await sendDetectionRequest(photoUrl);
@@ -164,6 +170,10 @@ async function sendDetectionRequest(photoUrl) {
 
 function clearEntries() {
   $('photo-url').value = '';
+  clearResults();
+}
+
+function clearResults() {
   const { canvas, ctx } = getCanvas();
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   $('recipes').innerHTML = '';

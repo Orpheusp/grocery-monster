@@ -1,6 +1,7 @@
 <html>
   <head>
     <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
     <title>Grocery Monster</title>
     <link rel="stylesheet" href="grocery_monster.css" />
     <script src="grocery_monster.js"></script>
@@ -19,18 +20,21 @@
   </head>
   <body>
     <div class="container">
-      <div class="row mt-5 mb-5">
+      <div class="row mt-md-5 mb-md-5 mt-2 mb-2">
         <h1 class="title col text-center display-1">Grocery Monster</h1>
       </div>
 
       <form>
-        <div class="row mt-3 mb-3">
-          <label for="photo-url" class="section-title col mt-5 mb-5">
+        <div class="row mt-md-3 mb-md-3 mt-2 mb-2">
+          <label
+            for="photo-url"
+            class="section-title col mt-md-5 mb-md-5 mt-2 mb-2"
+          >
             <h2 class="display-4 text-center">Photo URL</h2>
           </label>
         </div>
         <div class="row justify-content-center">
-          <div class="col-3">
+          <div class="col-lg-3 col-8">
             <input
               type="text"
               id="photo-url"
@@ -40,7 +44,7 @@
               placeholder="example.com/image.jpg"
             />
           </div>
-          <div class="col-2">
+          <div class="col-lg-2 col-4">
             <input
               class="btn btn-primary mb-3"
               type="button"
@@ -57,7 +61,7 @@
         </div>
       </form>
       <div id="results" class="hidden">
-        <div class="row mt-5 mb-5">
+        <div class="row mt-md-5 mb-md-5 mt-2 mb-2">
           <h2 class="section-title col display-4 text-center">
             Uploaded image (annotated)
           </h2>
@@ -66,13 +70,16 @@
           id="canvas"
           width="0"
           height="0"
-          class="mt-5 mb-5 ms-auto me-auto"
+          class="mt-md-5 mb-md-5 mt-2 mb-2 ms-auto me-auto"
         ></canvas>
 
-        <div class="row mt-5 mb-5">
+        <div class="row mt-md-5 mb-md-5 mt-2 mb-2">
           <h2 class="section-title col display-4 text-center">Recipes</h2>
         </div>
-        <div id="recipes" class="row justify-content-left mt-5 mb-5"></div>
+        <div
+          id="recipes"
+          class="row justify-content-left mt-md-5 mb-md-5 mt-2 mb-2"
+        ></div>
       </div>
     </div>
   </body>
