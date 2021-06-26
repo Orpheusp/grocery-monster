@@ -10,7 +10,7 @@ const {
   GOOGLE_API_KEY,
 } = require('./app_secrets');
 
-const INGREDIENT_TYPES = new Set([
+const INGREDIENT_TYPE_ALLOW_LIST = new Set([
   'Fruit',
   'Vegetable',
   'Meat',
@@ -20,6 +20,19 @@ const INGREDIENT_TYPES = new Set([
   'Flour',
   'Plant',
   'Beverage',
+]);
+
+const INGREDIENT_MID_DENY_LIST = new Set([
+  // Packaged goods
+  '/j/5qg9b8',
+  // Fruit
+  '/m/02xwb',
+  // Food
+  '/m/02wbm',
+  // Dairy Product
+  '/m/0284d',
+  // Vegetable
+  '/m/0f4s2w',
 ]);
 
 // Set up Google Vision API.
@@ -53,7 +66,9 @@ async function annotateImage(url) {
 
 async function filterIngredients(annotations) {
   // De-dupe.
-  let ingredientIds = annotations.map((annotation) => annotation.mid);
+  let ingredientIds = annotations
+    .map((annotation) => annotation.mid)
+    .filter((mid) => !INGREDIENT_MID_DENY_LIST.has(mid));
   ingredientIds = new Set(ingredientIds);
   ingredientIds = [...ingredientIds];
 
@@ -90,8 +105,8 @@ function _filterIngredients(items) {
     .map((item) => item.result)
     .filter(
       (item) =>
-        !INGREDIENT_TYPES.has(item.name) &&
-        INGREDIENT_TYPES.has(item.description)
+        !INGREDIENT_TYPE_ALLOW_LIST.has(item.name) &&
+        INGREDIENT_TYPE_ALLOW_LIST.has(item.description)
     )
     .map((item) => item.name);
 
